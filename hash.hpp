@@ -18,8 +18,9 @@ namespace hishamsHash{
 		}
 		std::cout << std::endl;
 
-		SHA256(p, length - 1, ptr);		
+		SHA256(p, length, ptr);
 	};
+
 
 	void printsha256(unsigned char* hash){
 		for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)

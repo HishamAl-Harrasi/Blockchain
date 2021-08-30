@@ -25,9 +25,6 @@
 
 int main(){
 
-	std::cout << "Hello World!" << std::endl;
-
-
 	const char* myString = "meow";
 	size_t length = strlen(myString);
 

@@ -4,25 +4,32 @@
 #include "block.hpp"
 #include "transaction.hpp"
 
-// class Blockchain{
-//     private:
+class Blockchain{
+    private:
     
-//     public:
-//         Blockchain(bool isGenesis);
+    public:
+        Blockchain(bool isGenesis);
 
+        const unsigned char* hashBlock();
 
-// };
+        char* serializeBlock();
+};
 
-// Blockchain::Blockchain(bool isGenesis){
-//     if (isGenesis){
-//         std::vector<Block> chain;
+Blockchain::Blockchain(bool isGenesis){
+    if (isGenesis){
+        std::vector<Block> chain;
         
-//         // chain.push_back();
+        // chain.push_back();       
+    }
+}
 
+char* Blockchain::serializeBlock(){
+    
+}
 
-        
-//     }
-// }
+const unsigned char* Blockchain::hashBlock(){
+
+}
 
 int main(){
     

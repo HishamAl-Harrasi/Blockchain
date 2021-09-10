@@ -13,38 +13,56 @@
 
 class Block{
 	private:
-		unsigned int index;
-		uint32_t nonce;
-		const long timestamp = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+		uint64_t index;
+		uint64_t nonce;
+		const uint32_t timestamp = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 		std::vector <Transaction> transactions;
+		std::string prevBlockHash;
 
 		
 	public:
 		
-		std::string prevBlockHash;
 		
-		Block(std::string prevBlockHash, unsigned int index);
+		Block(std::string prevBlockHash, uint64_t index);
 
-		unsigned int getIndex();
+		void setNonce(uint64_t nonce);
+		
+		uint64_t getNonce();
 
-		const long getTimestamp();
+		const uint32_t getTimestamp();
+
+		uint64_t getIndex();
+
+		std::string getPrevBlockHash();
 
 		bool addTransaction(Transaction transaction);
 
 };
 
-Block::Block(std::string prevBlockHash, unsigned int index){
+Block::Block(std::string prevBlockHash, uint64_t index){
 	this -> prevBlockHash = prevBlockHash;
 	this -> index = index;
 };
 
-const long Block::getTimestamp(){
+void Block::setNonce(uint64_t nonce){
+	this->nonce = nonce;
+}
+
+uint64_t Block::getNonce(){
+	return nonce;
+}
+
+const uint32_t Block::getTimestamp(){
 	return timestamp;
 };
 
-unsigned int Block::getIndex(){
+uint64_t Block::getIndex(){
 	return index;
 };
+
+std::string Block::getPrevBlockHash(){
+	return prevBlockHash;
+}
 
 bool Block::addTransaction(Transaction newTransaction){
 	

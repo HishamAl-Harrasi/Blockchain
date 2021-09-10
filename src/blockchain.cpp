@@ -3,6 +3,8 @@
 #include <string>
 #include <sstream>
 #include "block.hpp"
+#include "hash.hpp"
+
 
 class Blockchain{
     private:
@@ -13,10 +15,9 @@ class Blockchain{
         void addBlock(Block block);
 
         // const unsigned char* hashBlock();
-        void hashBlock();
+        void hashBlock(Block* block);
 
-        // char* serializeBlock(Block* block);
-        void serializeBlock(Block* block);
+        const char* serializeBlock(Block* block);
 };
 
 
@@ -31,24 +32,34 @@ void Blockchain::addBlock(Block block){
     chain.push_back(block);
 }
 
-// char* Blockchain::serializeBlock(Block* block){
-void Blockchain::serializeBlock(Block* block){
+const char* Blockchain::serializeBlock(Block* block){
     
     std::ostringstream serializedBlockStream;
 
     serializedBlockStream << block -> getIndex() << " " << block -> getNonce() << " " << block -> getTimestamp() << " " << block -> getPrevBlockHash() << " ";
 
-    std::string serializedBlock = serializedBlockStream.str();
+    
+    std::vector <Transaction> blockTransactions = block -> getTransactions();
+    
+    for (int i = 0; i < blockTransactions.size(); i++){
+        serializedBlockStream << blockTransactions[i];
+    }
+    
+    std::string serializedBlockString = serializedBlockStream.str();
 
-    std::cout << serializedBlock << std::endl;
-
-
-
+    const char* serializedBlock = serializedBlockString.c_str();
+    
+    return serializedBlock;
 }
 
 // const unsigned char* Blockchain::hashBlock(){
-void Blockchain::hashBlock(){
+void Blockchain::hashBlock(Block* block){
+        // LATEST ISSUE - for some reason running serializeBlock() does not return anything at the moment - probably problem with pointers
+    const char* test = serializeBlock(block);
 
+    std::cout << test[0] << std::endl;
+
+    // hasher::sha256()
 }
 
 int main(){
@@ -61,17 +72,16 @@ int main(){
     
     genesis.setNonce(12345);
 
+    std::string sender = "hisham";
+    std::string reciever = "zak";
+
+    Transaction newTransaction {sender, reciever, 28282, 1};
+
+    genesis.addTransaction(newTransaction);
+
     myBlockchain.addBlock(genesis);
+    myBlockchain.hashBlock(&genesis);
 
-    myBlockchain.serializeBlock(&genesis);
-    
-
-    // std::string sender = "hisham";
-    // std::string reciever = "zak";
-
-    // Transaction newTransaction {sender, reciever, 28282, 1};
-
-    // genesis.addTransaction(newTransaction);
 
     return 0;
 }

@@ -37,6 +37,8 @@ class Block{
 
 		bool addTransaction(Transaction transaction);
 
+		std::vector <Transaction> getTransactions();
+
 };
 
 Block::Block(std::string prevBlockHash, uint64_t index){
@@ -76,6 +78,8 @@ bool Block::addTransaction(Transaction newTransaction){
 
 }
 
-
+std::vector <Transaction> Block::getTransactions(){
+	return transactions;
+}
 
 #endif

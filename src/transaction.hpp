@@ -15,7 +15,8 @@ class Transaction {
 
     public:
         Transaction(std::string senderAddress, std::string recieverAddress, double transactionAmount, uint16_t transactionID);
-
+        
+        void printTransaction();
 
         friend std::ostream &operator<< (std::ostream &o_stream, Transaction transaction);
 
@@ -35,14 +36,20 @@ Transaction::Transaction(std::string senderAddress, std::string recieverAddress,
     }
 }
 
+
+void Transaction::printTransaction(){
+    std::cout << "\nTransaction ID:       " << transactionID << std::endl;
+    std::cout << "\n  Sender Address:       " << senderAddress << std::endl;
+    std::cout << "  Reciever Address:     " << recieverAddress << std::endl;
+    std::cout << "  Transaction Amount:   " << transactionAmount << std::endl << std::endl;
+}
+
 std::ostream &operator << (std::ostream &o_stream, Transaction transaction){
-    o_stream << "\nTransaction ID:       " << transaction.transactionID << std::endl;
-    o_stream << "\n  Sender Address:       " << transaction.senderAddress << std::endl;
-    o_stream << "  Reciever Address:     " << transaction.recieverAddress << std::endl;
-    o_stream << "  Transaction Amount:   " << transaction.transactionAmount << std::endl << std::endl;
+    o_stream << transaction.transactionID << transaction.senderAddress << transaction.recieverAddress << transaction.transactionAmount;
 
     return o_stream;
 };
+
 
 
 

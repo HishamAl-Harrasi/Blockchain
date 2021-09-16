@@ -44,7 +44,7 @@ std::ostringstream Blockchain::serializeBlock(Block* block){
     for (int i = 0; i < blockTransactions.size(); i++){
         serializedBlockStream << blockTransactions[i];
     }
-
+    
     return serializedBlockStream;
 }
 
@@ -59,8 +59,9 @@ unsigned char* Blockchain::hashBlock(Block* block){
 
     unsigned char* hash;
     hasher::sha256(serializedBlock, strLength, hash);
-
-    return hash;    
+    hasher::printsha256(hash);
+    
+    return hash;
 }
 
 int main(){

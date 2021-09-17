@@ -10,29 +10,20 @@ namespace hasher{
 		
 		SHA256(p, length, ptr);
 
-		// ---------------------------------------
 	};
 
+	// Reference: https://stackoverflow.com/questions/2262386/generate-sha256-with-openssl-and-c
+	void sha256str(unsigned char* hash,  char strHash[64]){
+
+		for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+			sprintf(strHash + (i * 2), "%02x", hash[i]);
+		
+	}
 
 	void printsha256(unsigned char* hash){
 		for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
 			printf("%02x", hash[i]);
 
-
-		printf("\n\n"); // -------------------------------------
-
-		printf("%02x", hash[SHA256_DIGEST_LENGTH - 1]);
-
-		char hexHash[SHA256_DIGEST_LENGTH];
-
-		for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
-			sprintf(hexHash + i, "%02x", hash[i]);
-
-		std::cout << hexHash;
-			
-		printf("%s", hexHash);
-
-		std::cout << std::endl;
 	}
 
 }

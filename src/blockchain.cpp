@@ -57,9 +57,11 @@ unsigned char* Blockchain::hashBlock(Block* block){
     const char* serializedBlock = serializedBlockString.c_str();
     uint32_t strLength = strlen(serializedBlock);
 
+    std::cout << serializedBlock << std::endl;
+
     unsigned char* hash;
+    
     hasher::sha256(serializedBlock, strLength, hash);
-    hasher::printsha256(hash);
     
     return hash;
 }

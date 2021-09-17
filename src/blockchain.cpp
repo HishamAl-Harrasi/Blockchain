@@ -10,13 +10,23 @@ class Blockchain{
     private:
         std::vector <Block> chain;
         
+        uint8_t difficulty = 6;
+
         std::ostringstream serializeBlock(Block* block);
     public:
         Blockchain();
 
         void addBlock(Block block);
 
-        unsigned char* hashBlock(Block* block);
+        void printSerializedBlock(Block* block);
+
+        void hashBlock(Block* block, unsigned char* o_hash);
+
+        uint64_t mineBlock(Block* block);
+
+        void setDifficulty(uint8_t difficulty);
+        
+        uint8_t getDifficulty();
 
 };
 
@@ -48,7 +58,15 @@ std::ostringstream Blockchain::serializeBlock(Block* block){
     return serializedBlockStream;
 }
 
-unsigned char* Blockchain::hashBlock(Block* block){
+void Blockchain::printSerializedBlock(Block* block){
+    std::ostringstream serializedBlockStream = serializeBlock(block);
+    
+    std::string serializedBlockString = serializedBlockStream.str();
+
+    std::cout << serializedBlockString << std::endl;
+}
+
+void Blockchain::hashBlock(Block* block, unsigned char* o_hash){
     
     std::ostringstream serializedBlockStream = serializeBlock(block);
     
@@ -56,15 +74,59 @@ unsigned char* Blockchain::hashBlock(Block* block){
 
     const char* serializedBlock = serializedBlockString.c_str();
     uint32_t strLength = strlen(serializedBlock);
-
-    std::cout << serializedBlock << std::endl;
-
-    unsigned char* hash;
     
-    hasher::sha256(serializedBlock, strLength, hash);
+    hasher::sha256(serializedBlock, strLength, o_hash);
     
-    return hash;
 }
+
+uint64_t Blockchain::mineBlock(Block* block){
+    unsigned char* hash;
+    char strHash[64];
+    
+    while (true){
+        
+        hashBlock(block, hash);
+            
+        hasher::sha256str(hash, strHash);
+
+        uint64_t nonce = block -> getNonce();
+
+        int i = 0;
+        while (i < difficulty){
+            if (strHash[i] == '0'){
+                
+                if (i == difficulty - 1) {
+                    std::cout <<"\n\nHash: " << strHash << "\n\n";
+                    return nonce;
+                }
+                else {
+                    i++;
+                    continue;
+                }
+
+            } else {
+                i = 0;
+                uint64_t newNonce = nonce + 1;
+                block -> setNonce(newNonce);
+                break;
+            }
+        }
+    }    
+   
+
+}
+
+void Blockchain::setDifficulty(uint8_t difficulty){
+    this -> difficulty = difficulty;
+}
+
+uint8_t Blockchain::getDifficulty(){
+    return difficulty;
+}
+
+
+
+
 
 int main(){
     
@@ -74,7 +136,7 @@ int main(){
 
     Blockchain myBlockchain;
     
-    genesis.setNonce(12345);
+    // genesis.setNonce(12345);
 
     std::string sender = "hisham";
     std::string reciever = "zak";
@@ -84,8 +146,12 @@ int main(){
     genesis.addTransaction(newTransaction);
 
     myBlockchain.addBlock(genesis);
-    myBlockchain.hashBlock(&genesis);
+    
+    uint64_t nonce = myBlockchain.mineBlock(&genesis);
+    myBlockchain.printSerializedBlock(&genesis);
+    std::cout << "\n\nNonce: " << nonce << std::endl;
 
 
     return 0;
 }
+

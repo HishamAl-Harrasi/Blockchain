@@ -14,7 +14,7 @@
 class Block{
 	private:
 		uint64_t index;
-		uint64_t nonce;
+		uint64_t nonce = 0;
 		const uint32_t timestamp = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 		std::vector <Transaction> transactions;
 		std::string prevBlockHash;
@@ -47,7 +47,7 @@ Block::Block(std::string prevBlockHash, uint64_t index){
 };
 
 void Block::setNonce(uint64_t nonce){
-	this->nonce = nonce;
+	this -> nonce = nonce;
 }
 
 uint64_t Block::getNonce(){

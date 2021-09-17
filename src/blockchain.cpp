@@ -10,7 +10,7 @@ class Blockchain{
     private:
         std::vector <Block> chain;
         
-        uint8_t difficulty = 6;
+        uint8_t difficulty = 4;
 
         std::ostringstream serializeBlock(Block* block);
     public:

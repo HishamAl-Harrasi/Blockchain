@@ -1,1 +1,3 @@
-src/blockchain
+src/blockchain.exe
+src/run.sh
+*.exe
